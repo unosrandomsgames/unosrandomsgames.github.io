@@ -1,0 +1,74 @@
+:root {
+  --bg: #0b0418;
+  --panel: #150a2b;
+  --text: #ecebf7;
+  --muted: #a99fc8;
+  --magenta: #ff2bd6;
+  --cyan: #22e6ff;
+  --line: rgba(34, 230, 255, 0.35);
+  color-scheme: dark;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: radial-gradient(1200px 700px at 50% -10%, #2a0a3a 0%, var(--bg) 60%) fixed, var(--bg);
+  color: var(--text);
+  font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  padding: 0 16px;
+}
+
+main { max-width: 760px; margin: 0 auto; padding: 40px 0 64px; }
+
+header.brand { text-align: center; margin-bottom: 32px; }
+
+.logo {
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  font-size: clamp(28px, 7vw, 46px);
+  margin: 0;
+  background: linear-gradient(90deg, var(--magenta), var(--cyan));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  text-shadow: 0 0 24px rgba(255, 43, 214, 0.25);
+}
+
+.tagline { color: var(--muted); margin: 8px 0 0; }
+
+.card {
+  background: linear-gradient(180deg, rgba(21, 10, 43, 0.95), rgba(11, 4, 24, 0.95));
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 22px;
+  margin: 18px 0;
+  box-shadow: 0 0 28px rgba(34, 230, 255, 0.08);
+}
+
+.game { display: flex; gap: 20px; align-items: center; flex-wrap: wrap; }
+.game img { width: 112px; height: 112px; border-radius: 24px; box-shadow: 0 0 24px rgba(255, 43, 214, 0.35); }
+.game h2 { margin: 0 0 6px; }
+
+h1, h2, h3 { line-height: 1.25; }
+h2 { color: var(--cyan); }
+h3 { color: var(--magenta); margin-top: 28px; }
+
+a { color: var(--cyan); }
+a:hover { color: var(--magenta); }
+
+.pill {
+  display: inline-block;
+  border: 1px solid var(--magenta);
+  color: var(--magenta);
+  border-radius: 999px;
+  padding: 2px 12px;
+  font-size: 13px;
+  margin-right: 6px;
+}
+
+.lang { text-align: right; font-size: 14px; color: var(--muted); }
+.muted { color: var(--muted); }
+footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
+ul { padding-left: 22px; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
