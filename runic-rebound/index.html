@@ -66,6 +66,9 @@
   details summary { cursor: pointer; font-weight: 700; color: var(--text); }
   details p { margin: 8px 0 0; color: var(--muted); }
 
+  .intro-video { display: flex; justify-content: center; }
+  .intro-video video { width: min(340px, 100%); height: auto; aspect-ratio: 540 / 1200; border-radius: 22px;
+                       border: 1px solid var(--line); background: #000; box-shadow: 0 0 40px rgba(255, 43, 214, 0.25); }
   .contact { text-align: center; }
   @media (prefers-reduced-motion: reduce) { .hero canvas { display: none; } }
 </style>
@@ -96,6 +99,14 @@
   </section>
 
   <p class="story" data-i18n="story">Year 2099. A rogue AI has sealed the megacity of NEO-RUNA under giant runic seals. Only one spark remains: <em>you</em>.</p>
+
+  <h2 class="section-title" data-i18n="introTitle">Watch the intro</h2>
+  <p class="section-sub" data-i18n="introSub">31 seconds · original soundtrack · turn the sound on</p>
+  <div class="intro-video">
+    <video controls playsinline preload="none" poster="img/intro-poster.jpg" width="540" height="1200">
+      <source src="img/intro.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <h2 class="section-title" data-i18n="howTitle">The ball is simple. The walls are magic.</h2>
   <p class="section-sub" data-i18n="howSub">How a run works</p>
@@ -148,6 +159,8 @@
       tagline: "Rebota la luz, graba runas en los muros y hackea a los jefes de NEO-RUNA 2099.",
       soon: "Próximamente",
       story: "Año 2099. Una IA rebelde ha sellado la megaciudad de NEO-RUNA con sellos rúnicos gigantes. Solo queda una chispa: <em>tú</em>.",
+      introTitle: "Mira la intro",
+      introSub: "31 segundos · banda sonora original · activa el sonido",
       howTitle: "La bola es simple. Los muros son mágicos.",
       howSub: "Así es una partida",
       s1t: "Apunta y lanza",
