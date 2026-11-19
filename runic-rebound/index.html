@@ -1,58 +1,258 @@
 <!doctype html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Runic Rebound — UnosRandomsGames</title>
-<meta name="description" content="Runic Rebound: un juego cyberpunk de rebotes y runas para iOS y Android.">
+<meta name="description" content="Runic Rebound: a cyberpunk bounce-and-runes roguelite for iOS and Android. Engrave runes on the walls, defeat procedural bosses and hack their core.">
+<meta property="og:title" content="Runic Rebound">
+<meta property="og:description" content="Bounce light, engrave runes on the walls and hack the bosses of NEO-RUNA 2099.">
+<meta property="og:image" content="https://unosrandomsgames.github.io/runic-rebound/img/hero.jpg">
+<meta property="og:url" content="https://unosrandomsgames.github.io/runic-rebound/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="theme-color" content="#0b0418">
+<link rel="icon" href="icon.png">
 <link rel="stylesheet" href="../style.css">
+<style>
+  main { max-width: 1040px; }
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; }
+  .langsw button {
+    background: transparent; color: var(--muted); border: 1px solid var(--line); border-radius: 999px;
+    padding: 4px 12px; font: inherit; cursor: pointer; margin-left: 4px;
+  }
+  .langsw button[aria-pressed="true"] { color: var(--bg); background: var(--cyan); border-color: var(--cyan); font-weight: 700; }
+
+  .hero { position: relative; border-radius: 18px; overflow: hidden; border: 1px solid var(--line); margin-top: 18px;
+          min-height: 420px; display: grid; align-items: center; box-shadow: 0 0 40px rgba(255, 43, 214, 0.18); }
+  .hero canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .hero-inner { position: relative; padding: 40px 28px; display: flex; gap: 28px; align-items: center; flex-wrap: wrap; }
+  .hero-inner img.icon { width: 148px; height: 148px; border-radius: 32px; box-shadow: 0 0 36px rgba(34, 230, 255, 0.45); }
+  .hero h1 { margin: 0; font-size: clamp(38px, 8vw, 72px); letter-spacing: 0.04em; font-weight: 800; line-height: 1;
+             color: #fff; text-shadow: 0 0 16px var(--cyan), 0 0 38px rgba(255, 43, 214, 0.7); }
+  .hero .sub { margin: 12px 0 0; font-size: clamp(16px, 2.4vw, 21px); color: #c9f9ff; max-width: 34em; }
+  .badges { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .badge { border: 1px solid var(--cyan); border-radius: 12px; padding: 10px 16px; background: rgba(11, 4, 24, 0.7);
+           display: inline-flex; flex-direction: column; min-width: 150px; }
+  .badge small { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
+  .badge b { font-size: 18px; }
+
+  .story { text-align: center; font-size: clamp(17px, 2.4vw, 21px); max-width: 44em; margin: 34px auto 0; }
+  .story em { color: var(--magenta); font-style: normal; font-weight: 700; }
+
+  .section-title { text-align: center; margin: 54px 0 6px; font-size: clamp(24px, 4vw, 32px); }
+  .section-sub { text-align: center; color: var(--muted); margin: 0 0 22px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 16px; }
+  .step { margin: 0; }
+  .step .n { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+             border: 2px solid var(--magenta); color: var(--magenta); font-weight: 800; margin-bottom: 8px; }
+  .step h3 { margin: 4px 0 6px; color: var(--cyan); }
+  .step p { margin: 0; color: var(--text); }
+
+  .shots { display: flex; gap: 14px; overflow-x: auto; padding: 6px 4px 14px; scroll-snap-type: x mandatory; }
+  .shots figure { margin: 0; flex: 0 0 auto; width: min(230px, 62vw); scroll-snap-align: center; }
+  .shots img { width: 100%; height: auto; aspect-ratio: 1080 / 2400; object-fit: cover; border-radius: 16px; border: 1px solid var(--line);
+               box-shadow: 0 0 22px rgba(34, 230, 255, 0.12); display: block; background: var(--panel); }
+  .shots figcaption { text-align: center; color: var(--muted); font-size: 14px; margin-top: 8px; }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; }
+  .feature { margin: 0; }
+  .feature .k { font-size: 30px; font-weight: 800; color: var(--magenta); line-height: 1; }
+  .feature h3 { margin: 8px 0 4px; color: var(--cyan); }
+  .feature p { margin: 0; }
+
+  details { border-bottom: 1px solid var(--line); padding: 12px 0; }
+  details summary { cursor: pointer; font-weight: 700; color: var(--text); }
+  details p { margin: 8px 0 0; color: var(--muted); }
+
+  .contact { text-align: center; }
+  @media (prefers-reduced-motion: reduce) { .hero canvas { display: none; } }
+</style>
 </head>
 <body>
 <main>
-  <p class="lang"><a href="../">← UnosRandomsGames</a></p>
+  <div class="topbar">
+    <a href="../">← UnosRandomsGames</a>
+    <div class="langsw" role="group" aria-label="Language">
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+      <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
+    </div>
+  </div>
 
-  <section class="card game">
-    <img src="icon.png" alt="Runic Rebound icon">
-    <div>
-      <h1 class="logo" style="font-size:clamp(26px,6vw,40px)">Runic Rebound</h1>
-      <p><span class="pill">iOS</span><span class="pill">Android</span><span class="muted">Próximamente · Coming soon</span></p>
+  <section class="hero">
+    <canvas id="fx" aria-hidden="true"></canvas>
+    <div class="hero-inner">
+      <img class="icon" src="icon.png" alt="Runic Rebound icon" width="148" height="148">
+      <div>
+        <h1>RUNIC<br>REBOUND</h1>
+        <p class="sub" data-i18n="tagline">Bounce light, engrave runes on the walls and hack the bosses of NEO-RUNA 2099.</p>
+        <div class="badges">
+          <span class="badge"><small data-i18n="soon">Coming soon</small><b>App Store</b></span>
+          <span class="badge"><small data-i18n="soon">Coming soon</small><b>Google Play</b></span>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="card">
-    <h2>Español</h2>
-    <p>
-      Año 2099. Una IA rebelde selló la megaciudad de NEO-RUNA con sellos rúnicos gigantes. Solo queda una chispa: tú.
-    </p>
-    <ul>
-      <li>Apunta y lanza una ráfaga de bolas de luz que rebotan entre los muros.</li>
-      <li>Graba runas en los muros: fuego, hielo, rayos, eco… y combínalas.</li>
-      <li>Vence a jefes procedurales y hackea su núcleo con 15 minijuegos cyberpunk.</li>
-      <li>Cada jefe te lleva a un sector nuevo de la ciudad.</li>
-    </ul>
-    <p>Gratis con anuncios opcionales. Español e inglés.</p>
-  </section>
+  <p class="story" data-i18n="story">Year 2099. A rogue AI has sealed the megacity of NEO-RUNA under giant runic seals. Only one spark remains: <em>you</em>.</p>
 
-  <section class="card">
-    <h2>English</h2>
-    <p>
-      Year 2099. A rogue AI sealed the megacity of NEO-RUNA under giant runic seals. Only one spark remains: you.
-    </p>
-    <ul>
-      <li>Aim and launch a volley of light balls that bounce between the walls.</li>
-      <li>Engrave runes on the walls: fire, frost, lightning, echo… and combine them.</li>
-      <li>Defeat procedural bosses and hack their core in 15 cyberpunk minigames.</li>
-      <li>Every boss takes you to a new sector of the city.</li>
-    </ul>
-    <p>Free with optional ads. English and Spanish.</p>
-  </section>
+  <h2 class="section-title" data-i18n="howTitle">The ball is simple. The walls are magic.</h2>
+  <p class="section-sub" data-i18n="howSub">How a run works</p>
+  <div class="steps">
+    <div class="card step"><span class="n">1</span><h3 data-i18n="s1t">Aim and launch</h3><p data-i18n="s1p">Fire a volley of light balls and bank them off the walls to shatter the seals before they reach the bottom.</p></div>
+    <div class="card step"><span class="n">2</span><h3 data-i18n="s2t">Engrave runes</h3><p data-i18n="s2p">Pick a rune and choose which wall segment to carve it into. Balls gain its power only when they bounce there.</p></div>
+    <div class="card step"><span class="n">3</span><h3 data-i18n="s3t">Hack the boss</h3><p data-i18n="s3p">Defeat procedural bosses, then crack their core in a cyberpunk minigame to earn a new ability.</p></div>
+  </div>
 
-  <section class="card">
-    <p><a href="privacy.html">Política de privacidad · Privacy policy</a></p>
-    <p>Soporte · Support: <a href="mailto:unosrandomstv@gmail.com">unosrandomstv@gmail.com</a></p>
+  <h2 class="section-title" data-i18n="shotsTitle">Screenshots</h2>
+  <p class="section-sub" data-i18n="shotsSub">Swipe to see more</p>
+  <div class="shots">
+    <figure><img src="img/01-partida.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c1">Fire runes on both walls</figcaption></figure>
+    <figure><img src="img/03-tramo.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c2">Choose where to engrave</figcaption></figure>
+    <figure><img src="img/04-jefe.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c3">Boss fight</figcaption></figure>
+    <figure><img src="img/05-hackeo.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c4">Hack the core</figcaption></figure>
+    <figure><img src="img/06-grimorio.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c5">The Grimoire</figcaption></figure>
+    <figure><img src="img/07-menu.jpg" alt="" loading="lazy" width="450" height="1000"><figcaption data-i18n="c6">Main menu</figcaption></figure>
+  </div>
+
+  <h2 class="section-title" data-i18n="featTitle">Features</h2>
+  <div class="features">
+    <div class="card feature"><div class="k">20</div><h3 data-i18n="f1t">Runes</h3><p data-i18n="f1p">Fire, frost, lightning, echo and more. Unlock them in the Grimoire and through achievements.</p></div>
+    <div class="card feature"><div class="k">15</div><h3 data-i18n="f2t">Hacking minigames</h3><p data-i18n="f2p">Every defeated boss hides a core to crack before the timer runs out.</p></div>
+    <div class="card feature"><div class="k">∞</div><h3 data-i18n="f3t">Procedural bosses</h3><p data-i18n="f3p">Each boss has its own attacks and a FURY phase. Shield up and send their shots back.</p></div>
+    <div class="card feature"><div class="k">2</div><h3 data-i18n="f4t">Rune resonances</h3><p data-i18n="f4p">A ball can carry two runes at once. Plan bank shots that combine them.</p></div>
+  </div>
+
+  <h2 class="section-title" data-i18n="faqTitle">FAQ</h2>
+  <div class="card">
+    <details><summary data-i18n="q1">Is it free?</summary><p data-i18n="a1">Yes. The game is free and shows ads. Video ads are always optional and give you a reward. There are no in-app purchases.</p></details>
+    <details><summary data-i18n="q2">Can I play offline?</summary><p data-i18n="a2">Yes. Ads and rewarded videos need a connection, but the game itself works offline.</p></details>
+    <details><summary data-i18n="q3">Which languages?</summary><p data-i18n="a3">English and Spanish.</p></details>
+    <details><summary data-i18n="q4">When does it launch?</summary><p data-i18n="a4">Soon on iPhone and Android. We are finishing store reviews and testing.</p></details>
+    <details><summary data-i18n="q5">Who is it for?</summary><p data-i18n="a5">Players aged 13 and up who enjoy arcade, brick-breaker and roguelite games.</p></details>
+  </div>
+
+  <section class="card contact">
+    <p><a href="privacy.html" data-i18n="privacy">Privacy policy</a></p>
+    <p><span data-i18n="support">Support</span>: <a href="mailto:unosrandomstv@gmail.com">unosrandomstv@gmail.com</a></p>
   </section>
 
   <footer>© 2026 UnosRandomsGames</footer>
 </main>
+
+<script>
+(function () {
+  var T = {
+    es: {
+      tagline: "Rebota la luz, graba runas en los muros y hackea a los jefes de NEO-RUNA 2099.",
+      soon: "Próximamente",
+      story: "Año 2099. Una IA rebelde ha sellado la megaciudad de NEO-RUNA con sellos rúnicos gigantes. Solo queda una chispa: <em>tú</em>.",
+      howTitle: "La bola es simple. Los muros son mágicos.",
+      howSub: "Así es una partida",
+      s1t: "Apunta y lanza",
+      s1p: "Dispara una ráfaga de bolas de luz y hazlas rebotar en los muros para romper los sellos antes de que lleguen abajo.",
+      s2t: "Graba runas",
+      s2p: "Elige una runa y decide en qué tramo del muro grabarla. La bola solo gana su poder cuando rebota ahí.",
+      s3t: "Hackea al jefe",
+      s3p: "Vence a jefes procedurales y rompe su núcleo en un minijuego cyberpunk para ganar una habilidad nueva.",
+      shotsTitle: "Capturas",
+      shotsSub: "Desliza para ver más",
+      c1: "Runas de fuego en los dos muros",
+      c2: "Elige dónde grabar",
+      c3: "Combate contra el jefe",
+      c4: "Hackea el núcleo",
+      c5: "El Grimorio",
+      c6: "Menú principal",
+      featTitle: "Características",
+      f1t: "Runas",
+      f1p: "Fuego, hielo, rayo, eco y más. Desbloquéalas en el Grimorio y con logros.",
+      f2t: "Minijuegos de hackeo",
+      f2p: "Cada jefe vencido esconde un núcleo que hay que romper antes de que se acabe el tiempo.",
+      f3t: "Jefes procedurales",
+      f3p: "Cada jefe tiene sus propios ataques y una fase de FURIA. Usa el escudo y devuélvele sus disparos.",
+      f4t: "Resonancias rúnicas",
+      f4p: "Una bola puede llevar dos runas a la vez. Planea tiros a banda que las combinen.",
+      faqTitle: "Preguntas frecuentes",
+      q1: "¿Es gratis?",
+      a1: "Sí. El juego es gratis y muestra anuncios. Los vídeos son siempre opcionales y te dan una recompensa. No hay compras dentro de la app.",
+      q2: "¿Se puede jugar sin conexión?",
+      a2: "Sí. Los anuncios y los vídeos con recompensa necesitan conexión, pero el juego funciona sin ella.",
+      q3: "¿En qué idiomas está?",
+      a3: "Español e inglés.",
+      q4: "¿Cuándo sale?",
+      a4: "Pronto en iPhone y Android. Estamos terminando las revisiones de las tiendas y las pruebas.",
+      q5: "¿Para quién es?",
+      a5: "Para jugadores de 13 años en adelante a los que les gusten los juegos arcade, rompebloques y roguelite.",
+      privacy: "Política de privacidad",
+      support: "Soporte"
+    }
+  };
+  var EN = {};
+  var nodes = document.querySelectorAll("[data-i18n]");
+  nodes.forEach(function (n) { EN[n.getAttribute("data-i18n")] = n.innerHTML; });
+  T.en = EN;
+
+  function apply(lang) {
+    var t = T[lang] || EN;
+    nodes.forEach(function (n) { var k = n.getAttribute("data-i18n"); if (t[k]) n.innerHTML = t[k]; });
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-set-lang") === lang));
+    });
+    try { localStorage.setItem("rr-lang", lang); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("rr-lang"); } catch (e) {}
+  var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+  apply(saved || (nav === "es" ? "es" : "en"));
+  document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-set-lang")); });
+  });
+
+  // Fondo animado: bolas de luz que rebotan y encienden los muros (como en el juego).
+  var c = document.getElementById("fx");
+  if (!c || !c.getContext || window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+  var ctx = c.getContext("2d"), W = 0, H = 0, dpr = Math.min(window.devicePixelRatio || 1, 2);
+  var balls = [], flashes = [];
+  function resize() {
+    var r = c.getBoundingClientRect(); W = r.width; H = r.height;
+    c.width = W * dpr; c.height = H * dpr; ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+  }
+  resize(); window.addEventListener("resize", resize);
+  for (var i = 0; i < 14; i++) {
+    var a = Math.random() * Math.PI * 2, s = 1.6 + Math.random() * 1.8;
+    balls.push({ x: Math.random() * W, y: Math.random() * H, vx: Math.cos(a) * s, vy: Math.sin(a) * s,
+                 col: i % 3 === 0 ? "255,43,214" : "34,230,255", trail: [] });
+  }
+  function frame() {
+    ctx.fillStyle = "rgba(11,4,24,0.35)"; ctx.fillRect(0, 0, W, H);
+    ctx.strokeStyle = "rgba(34,230,255,0.06)"; ctx.lineWidth = 1;
+    for (var gx = 0; gx < W; gx += 40) { ctx.beginPath(); ctx.moveTo(gx, 0); ctx.lineTo(gx, H); ctx.stroke(); }
+    for (var gy = 0; gy < H; gy += 40) { ctx.beginPath(); ctx.moveTo(0, gy); ctx.lineTo(W, gy); ctx.stroke(); }
+    balls.forEach(function (b) {
+      b.x += b.vx; b.y += b.vy;
+      if (b.x < 4 || b.x > W - 4) { b.vx *= -1; b.x = Math.max(4, Math.min(W - 4, b.x)); flashes.push({ x: b.x < W / 2 ? 0 : W, y: b.y, v: 1, side: true, col: b.col }); }
+      if (b.y < 4 || b.y > H - 4) { b.vy *= -1; b.y = Math.max(4, Math.min(H - 4, b.y)); flashes.push({ x: b.x, y: b.y < H / 2 ? 0 : H, v: 1, side: false, col: b.col }); }
+      b.trail.push([b.x, b.y]); if (b.trail.length > 10) b.trail.shift();
+      for (var k = 0; k < b.trail.length; k++) {
+        var p = b.trail[k], al = (k + 1) / b.trail.length;
+        ctx.fillStyle = "rgba(" + b.col + "," + (al * 0.5) + ")";
+        ctx.beginPath(); ctx.arc(p[0], p[1], 2 + al * 2, 0, 7); ctx.fill();
+      }
+      ctx.shadowBlur = 14; ctx.shadowColor = "rgb(" + b.col + ")"; ctx.fillStyle = "#fff";
+      ctx.beginPath(); ctx.arc(b.x, b.y, 4, 0, 7); ctx.fill(); ctx.shadowBlur = 0;
+    });
+    flashes = flashes.filter(function (f) {
+      f.v -= 0.03; if (f.v <= 0) return false;
+      ctx.strokeStyle = "rgba(" + f.col + "," + f.v + ")"; ctx.lineWidth = 3; ctx.beginPath();
+      if (f.side) { ctx.moveTo(f.x, f.y - 40); ctx.lineTo(f.x, f.y + 40); } else { ctx.moveTo(f.x - 40, f.y); ctx.lineTo(f.x + 40, f.y); }
+      ctx.stroke(); return true;
+    });
+    requestAnimationFrame(frame);
+  }
+  frame();
+})();
+</script>
 </body>
 </html>
