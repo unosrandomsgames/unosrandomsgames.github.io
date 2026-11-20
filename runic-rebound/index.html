@@ -36,6 +36,15 @@
            display: inline-flex; flex-direction: column; min-width: 150px; }
   .badge small { color: var(--muted); font-size: 12px; text-transform: uppercase; letter-spacing: 0.08em; }
   .badge b { font-size: 18px; }
+  .ctas { margin-top: 16px; display: flex; gap: 10px; flex-wrap: wrap; }
+  .cta { display: inline-block; padding: 12px 18px; border-radius: 12px; font-weight: 800; text-decoration: none;
+         color: #0b0418; background: linear-gradient(90deg, var(--magenta), var(--cyan)); }
+  .cta.ghost { color: var(--text); background: rgba(11, 4, 24, 0.7); border: 1px solid var(--magenta); }
+  .early { max-width: 44em; margin: 34px auto 0; }
+  .early ol { margin: 8px 0 0; padding-left: 1.3em; }
+  .early li { margin: 6px 0; }
+  .socials { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+  .socials a { border: 1px solid var(--line); border-radius: 999px; padding: 8px 14px; text-decoration: none; color: var(--text); }
 
   .story { text-align: center; font-size: clamp(17px, 2.4vw, 21px); max-width: 44em; margin: 34px auto 0; }
   .story em { color: var(--magenta); font-style: normal; font-weight: 700; }
@@ -94,7 +103,28 @@
           <span class="badge"><small data-i18n="soon">Coming soon</small><b>App Store</b></span>
           <span class="badge"><small data-i18n="soon">Coming soon</small><b>Google Play</b></span>
         </div>
+        <div class="ctas">
+          <a class="cta" href="https://discord.gg/aYCfAEBq9X" target="_blank" rel="noopener" data-i18n="ctaDiscord">Join the Discord</a>
+          <a class="cta ghost" href="#early" data-i18n="ctaEarly">Play early on Android</a>
+        </div>
       </div>
+    </div>
+  </section>
+
+  <section class="card early" id="early">
+    <h2 class="section-title" data-i18n="earlyTitle">Play it before launch (Android)</h2>
+    <p data-i18n="earlySub">Runic Rebound is not in the stores yet. Android players can join the closed test now:</p>
+    <ol>
+      <li data-i18n="early1">Join the testers group with the <b>same Gmail you use on Google Play</b>: <a href="https://groups.google.com/g/runic-rebound-testers" target="_blank" rel="noopener">groups.google.com/g/runic-rebound-testers</a></li>
+      <li data-i18n="early2">Accept the test and install: <a href="https://play.google.com/apps/testing/com.unosrandomsgames.runicrebound" target="_blank" rel="noopener">play.google.com/apps/testing/…runicrebound</a></li>
+      <li data-i18n="early3">Keep it installed for 14 days and tell us what you think in the <a href="https://discord.gg/aYCfAEBq9X" target="_blank" rel="noopener">Discord</a>.</li>
+    </ol>
+    <p data-i18n="earlyIos">iPhone: coming soon to the App Store. Follow us to know the launch day.</p>
+    <div class="socials">
+      <a href="https://www.youtube.com/@unosrandoms_games" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.tiktok.com/@unosrandoms_games" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.instagram.com/unosrandoms_games/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://discord.gg/aYCfAEBq9X" target="_blank" rel="noopener">Discord</a>
     </div>
   </section>
 
@@ -158,6 +188,14 @@
     es: {
       tagline: "Rebota la luz, graba runas en los muros y hackea a los jefes de NEO-RUNA 2099.",
       soon: "Próximamente",
+      ctaDiscord: "Únete al Discord",
+      ctaEarly: "Juega antes en Android",
+      earlyTitle: "Juégalo antes del lanzamiento (Android)",
+      earlySub: "Runic Rebound todavía no está en las tiendas. Si tienes Android, ya puedes entrar en la prueba cerrada:",
+      early1: "Únete al grupo de testers con el <b>mismo Gmail que usas en Google Play</b>: <a href=\"https://groups.google.com/g/runic-rebound-testers\" target=\"_blank\" rel=\"noopener\">groups.google.com/g/runic-rebound-testers</a>",
+      early2: "Acepta la prueba e instala: <a href=\"https://play.google.com/apps/testing/com.unosrandomsgames.runicrebound\" target=\"_blank\" rel=\"noopener\">play.google.com/apps/testing/…runicrebound</a>",
+      early3: "Déjalo instalado 14 días y cuéntanos qué te parece en el <a href=\"https://discord.gg/aYCfAEBq9X\" target=\"_blank\" rel=\"noopener\">Discord</a>.",
+      earlyIos: "iPhone: muy pronto en el App Store. Síguenos para saber el día del lanzamiento.",
       story: "Año 2099. Una IA rebelde ha sellado la megaciudad de NEO-RUNA con sellos rúnicos gigantes. Solo queda una chispa: <em>tú</em>.",
       introTitle: "Mira la intro",
       introSub: "31 segundos · banda sonora original · activa el sonido",
