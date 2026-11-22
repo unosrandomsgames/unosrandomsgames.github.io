@@ -1,0 +1,331 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Saltlight · Faro de Sal — UnosRandomsGames</title>
+<meta name="description" content="Saltlight (Faro de Sal): defend the lighthouse, forge weapons and lead your village against the grey tide. Coming soon to iOS and Android.">
+<meta property="og:title" content="Saltlight · Faro de Sal">
+<meta property="og:description" content="Defend the lighthouse, forge weapons and lead your village against the tide. Coming soon to iOS and Android.">
+<meta property="og:image" content="https://unosrandomsgames.github.io/saltlight/img/og.jpg">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:url" content="https://unosrandomsgames.github.io/saltlight/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Saltlight · Faro de Sal">
+<meta name="twitter:description" content="Defend the lighthouse, forge weapons and lead your village against the tide.">
+<meta name="twitter:image" content="https://unosrandomsgames.github.io/saltlight/img/og.jpg">
+<meta name="theme-color" content="#0f1620">
+<link rel="icon" href="icon.png">
+<style>
+  :root {
+    --bg: #0f1620;
+    --bg-2: #141e2a;
+    --panel: #18232f;
+    --slate: #3c5269;
+    --slate-2: #6f88a3;
+    --amber: #f5c56b;
+    --amber-2: #e39b3a;
+    --cream: #f2ede3;
+    --muted: #a3b2c2;
+    --line: rgba(245, 197, 107, 0.22);
+    --line-2: rgba(111, 136, 163, 0.35);
+    color-scheme: dark;
+  }
+  * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
+  body {
+    margin: 0; padding: 0 16px; color: var(--cream);
+    background:
+      radial-gradient(900px 520px at 70% -8%, rgba(245, 197, 107, 0.16), transparent 60%),
+      linear-gradient(180deg, #172332 0%, var(--bg) 42%, #0b1118 100%) fixed,
+      var(--bg);
+    font: 16px/1.6 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  }
+  main { max-width: 1040px; margin: 0 auto; padding: 22px 0 64px; }
+  a { color: var(--amber); }
+  a:hover { color: #ffe0a3; }
+  h1, h2, h3 { line-height: 1.2; }
+
+  .topbar { display: flex; justify-content: space-between; align-items: center; gap: 12px; font-size: 14px; flex-wrap: wrap; }
+  .topbar > a { text-decoration: none; color: var(--muted); }
+  .topbar > a:hover { color: var(--amber); }
+  .langsw button {
+    background: transparent; color: var(--muted); border: 1px solid var(--line-2); border-radius: 999px;
+    padding: 4px 12px; font: inherit; cursor: pointer; margin-left: 4px;
+  }
+  .langsw button[aria-pressed="true"] { color: var(--bg); background: var(--amber); border-color: var(--amber); font-weight: 700; }
+
+  /* Hero */
+  .hero {
+    position: relative; overflow: hidden; margin-top: 16px; border-radius: 22px;
+    border: 1px solid var(--line);
+    background: radial-gradient(120% 90% at 85% 10%, #2a3a4f 0%, #16212d 55%, #0e151d 100%);
+    box-shadow: 0 18px 60px rgba(0, 0, 0, 0.45);
+    display: grid; grid-template-columns: 1.1fr 0.9fr; align-items: center; gap: 12px;
+  }
+  .hero::before { /* haz del faro */
+    content: ""; position: absolute; left: 50%; top: -40%; width: 160%; height: 180%; transform-origin: 0 50%;
+    background: conic-gradient(from 0deg at 0 50%, transparent 0deg, rgba(245, 197, 107, 0.13) 8deg, transparent 18deg);
+    animation: sweep 9s linear infinite; pointer-events: none;
+  }
+  .hero::after { /* bruma baja */
+    content: ""; position: absolute; inset: auto 0 0 0; height: 40%; pointer-events: none;
+    background: linear-gradient(0deg, rgba(163, 178, 194, 0.10), transparent);
+  }
+  @keyframes sweep { from { transform: rotate(-30deg); } 50% { transform: rotate(30deg); } to { transform: rotate(-30deg); } }
+  .hero-text { position: relative; z-index: 1; padding: 36px 8px 36px 32px; }
+  .hero-text img.icon { width: 112px; height: 112px; border-radius: 26px; display: block;
+    box-shadow: 0 0 0 1px var(--line), 0 0 40px rgba(245, 197, 107, 0.35); }
+  .hero h1 { margin: 18px 0 0; font-size: clamp(40px, 8vw, 74px); font-weight: 800; letter-spacing: 0.01em;
+    color: var(--cream); text-shadow: 0 2px 0 #4a3415, 0 0 28px rgba(245, 197, 107, 0.45); }
+  .hero .alt { margin: 4px 0 0; color: var(--muted); font-size: 15px; letter-spacing: 0.04em; }
+  .hero .sub { margin: 14px 0 0; font-size: clamp(17px, 2.3vw, 21px); color: #e6dcc8; max-width: 30em; }
+  .soon { margin-top: 20px; display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
+  .soon .label { font-weight: 800; color: var(--bg); background: linear-gradient(90deg, var(--amber), var(--amber-2));
+    border-radius: 999px; padding: 6px 14px; letter-spacing: 0.02em; }
+  .chip { border: 1px solid var(--slate-2); color: var(--cream); border-radius: 999px; padding: 5px 14px; font-size: 14px;
+    background: rgba(15, 22, 32, 0.6); }
+  .hero-art { position: relative; z-index: 1; margin: 0; padding: 24px 24px 24px 0; display: flex; justify-content: center; }
+  .hero-art img { width: 100%; max-width: 340px; height: auto; aspect-ratio: 720 / 1280; object-fit: cover; display: block;
+    border-radius: 20px; border: 1px solid var(--line); box-shadow: 0 20px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(245, 197, 107, 0.15); }
+
+  .story { text-align: center; font-size: clamp(18px, 2.5vw, 22px); max-width: 40em; margin: 44px auto 0; color: #e6dcc8; }
+  .story em { color: var(--amber); font-style: normal; font-weight: 700; }
+
+  .section-title { text-align: center; margin: 56px 0 6px; font-size: clamp(24px, 4vw, 32px); color: var(--cream); }
+  .section-sub { text-align: center; color: var(--muted); margin: 0 0 22px; }
+
+  .card { background: linear-gradient(180deg, rgba(28, 40, 54, 0.92), rgba(20, 30, 42, 0.92));
+    border: 1px solid var(--line-2); border-radius: 16px; padding: 20px; }
+
+  .steps { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 14px; }
+  .step .n { display: inline-grid; place-items: center; width: 34px; height: 34px; border-radius: 50%;
+    background: rgba(245, 197, 107, 0.12); border: 2px solid var(--amber); color: var(--amber); font-weight: 800; }
+  .step h3 { margin: 10px 0 6px; color: var(--amber); font-size: 19px; }
+  .step p { margin: 0; }
+
+  .shots { display: flex; gap: 14px; overflow-x: auto; padding: 6px 4px 16px; scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch; }
+  .shots figure { margin: 0; flex: 0 0 auto; scroll-snap-align: center; }
+  .shots img { height: min(460px, 72vh); width: auto; display: block; border-radius: 16px; border: 1px solid var(--line-2);
+    background: var(--panel); box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4); }
+  .shots figcaption { text-align: center; color: var(--muted); font-size: 14px; margin-top: 8px; max-width: 240px; margin-inline: auto; }
+
+  .intro-video { display: flex; justify-content: center; }
+  .intro-video video { width: min(340px, 100%); height: auto; aspect-ratio: 540 / 960; border-radius: 22px;
+    border: 1px solid var(--line); background: #000; box-shadow: 0 18px 50px rgba(0, 0, 0, 0.55), 0 0 40px rgba(245, 197, 107, 0.15); }
+
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(280px, 100%), 1fr)); gap: 14px; }
+  .feature .k { font-size: 32px; font-weight: 800; color: var(--amber); line-height: 1; }
+  .feature h3 { margin: 8px 0 4px; color: var(--cream); font-size: 19px; }
+  .feature p { margin: 0; color: #d7dde4; }
+
+  details { border-bottom: 1px solid var(--line-2); padding: 12px 0; }
+  details:last-child { border-bottom: 0; }
+  details summary { cursor: pointer; font-weight: 700; }
+  details p { margin: 8px 0 0; color: var(--muted); }
+
+  .contact { text-align: center; margin-top: 40px; }
+  .contact p { margin: 6px 0; }
+  .socials { display: flex; gap: 10px; flex-wrap: wrap; justify-content: center; margin-top: 12px; }
+  .socials a { border: 1px solid var(--line-2); border-radius: 999px; padding: 8px 14px; text-decoration: none; color: var(--cream); }
+  .socials a:hover { border-color: var(--amber); color: var(--amber); }
+  .muted { color: var(--muted); }
+  footer { text-align: center; color: var(--muted); font-size: 14px; margin-top: 40px; }
+
+  @media (max-width: 760px) {
+    .hero { grid-template-columns: 1fr; }
+    .hero-text { padding: 28px 22px 4px; }
+    .hero-text img.icon { width: 88px; height: 88px; border-radius: 20px; }
+    .hero-art { padding: 8px 22px 26px; }
+    .hero-art img { max-width: 300px; }
+  }
+  @media (prefers-reduced-motion: reduce) { .hero::before { animation: none; } }
+</style>
+</head>
+<body>
+<main>
+  <div class="topbar">
+    <a href="../">← UnosRandomsGames</a>
+    <div class="langsw" role="group" aria-label="Language">
+      <button type="button" data-set-lang="es" aria-pressed="false">ES</button>
+      <button type="button" data-set-lang="en" aria-pressed="true">EN</button>
+    </div>
+  </div>
+
+  <section class="hero">
+    <div class="hero-text">
+      <img class="icon" src="icon.png" alt="" width="112" height="112">
+      <h1 data-i18n="title">Saltlight</h1>
+      <p class="alt" data-i18n="alt">Faro de Sal in Spanish</p>
+      <p class="sub" data-i18n="tagline">Defend the lighthouse, forge weapons and lead your village against the grey tide.</p>
+      <div class="soon">
+        <span class="label" data-i18n="soon">Coming soon</span>
+        <span class="chip">iOS</span>
+        <span class="chip">Android</span>
+      </div>
+    </div>
+    <figure class="hero-art">
+      <img src="img/hero-en.jpg" data-src-en="img/hero-en.jpg" data-src-es="img/hero-es.jpg" alt="" width="720" height="1280" data-i18n-alt="heroAlt">
+    </figure>
+  </section>
+
+  <p class="story" data-i18n="story">A salt-flat coast, a stone lighthouse and a grey tide that rises every night. You are the <em>lightkeeper</em>: if the light goes out, the village falls.</p>
+
+  <h2 class="section-title" data-i18n="howTitle">How to play</h2>
+  <p class="section-sub" data-i18n="howSub">Every night, four steps</p>
+  <div class="steps">
+    <div class="card step"><span class="n">1</span><h3 data-i18n="s1t">Spend the salt at low tide</h3><p data-i18n="s1p">Build nets, harpoon posts, cauldrons and bells, and upgrade them from wood to iron and bronze.</p></div>
+    <div class="card step"><span class="n">2</span><h3 data-i18n="s2t">Assign your villagers</h3><p data-i18n="s2p">Every villager is either income or defense, never both: you choose who gathers salt and who wields a harpoon.</p></div>
+    <div class="card step"><span class="n">3</span><h3 data-i18n="s3t">Fight the wave</h3><p data-i18n="s3p">Move your hero with one thumb, strike in an arc with one button and use your skills at the right moment.</p></div>
+    <div class="card step"><span class="n">4</span><h3 data-i18n="s4t">Beat the boss and set sail</h3><p data-i18n="s4p">Every island ends with a boss. Win and sail on to the next island of the archipelago.</p></div>
+  </div>
+
+  <h2 class="section-title" data-i18n="shotsTitle">Screenshots</h2>
+  <p class="section-sub" data-i18n="shotsSub">Swipe to see more</p>
+  <div class="shots">
+    <figure><img src="img/calafate-en.jpg" data-src-en="img/calafate-en.jpg" data-src-es="img/calafate-es.jpg" alt="" loading="lazy" width="540" height="960"><figcaption data-i18n="c1">The Caulker and his Hot Tar</figcaption></figure>
+    <figure><img src="img/faro.jpg" alt="" loading="lazy" width="540" height="1136"><figcaption data-i18n="c2">Defend the lighthouse</figcaption></figure>
+    <figure><img src="img/aldea-en.jpg" data-src-en="img/aldea-en.jpg" data-src-es="img/aldea-es.jpg" alt="" loading="lazy" width="540" height="1080"><figcaption data-i18n="c3">Your village grows with you</figcaption></figure>
+    <figure><img src="img/leviatan-en.jpg" data-src-en="img/leviatan-en.jpg" data-src-es="img/leviatan-es.jpg" alt="" loading="lazy" width="540" height="940"><figcaption data-i18n="c4">From the deep comes the Leviathan</figcaption></figure>
+    <figure><img src="img/forja-en.jpg" data-src-en="img/forja-en.jpg" data-src-es="img/forja-es.jpg" alt="" loading="lazy" width="540" height="1136"><figcaption data-i18n="c5">Forge the weapon you choose</figcaption></figure>
+    <figure><img src="img/heroe.jpg" alt="" loading="lazy" width="540" height="1136"><figcaption data-i18n="c6">Choose your hero</figcaption></figure>
+    <figure><img src="img/campanero-en.jpg" data-src-en="img/campanero-en.jpg" data-src-es="img/campanero-es.jpg" alt="" loading="lazy" width="540" height="960"><figcaption data-i18n="c7">The Bell-ringer calls to arms</figcaption></figure>
+    <figure><img src="img/mapa.jpg" alt="" loading="lazy" width="540" height="1080"><figcaption data-i18n="c8">Explore the archipelago</figcaption></figure>
+    <figure><img src="img/taller.jpg" alt="" loading="lazy" width="540" height="1136"><figcaption data-i18n="c9">Upgrade your defenses in the Workshop</figcaption></figure>
+  </div>
+
+  <h2 class="section-title" data-i18n="introTitle">Watch the intro</h2>
+  <p class="section-sub" data-i18n="introSub">42 seconds · captions in English</p>
+  <div class="intro-video">
+    <video controls playsinline muted preload="none" poster="img/intro-poster.jpg" width="540" height="960">
+      <source src="img/intro.mp4" type="video/mp4">
+    </video>
+  </div>
+
+  <h2 class="section-title" data-i18n="featTitle">Features</h2>
+  <div class="features">
+    <div class="card feature"><div class="k">5</div><h3 data-i18n="f1t">Heroes</h3><p data-i18n="f1p">The Lightkeeper, the Whaler, the Caulker, the Fisher and the Bell-ringer, each with their own style.</p></div>
+    <div class="card feature"><div class="k">20</div><h3 data-i18n="f2t">Skills</h3><p data-i18n="f2p">Level up, unlock skills and decide when to use them in the middle of a wave.</p></div>
+    <div class="card feature"><div class="k">11</div><h3 data-i18n="f3t">Village buildings</h3><p data-i18n="f3p">A merchant, a workshop, a smithy and more. Your village grows with you.</p></div>
+    <div class="card feature"><div class="k">⚒</div><h3 data-i18n="f4t">Weapons made to order</h3><p data-i18n="f4p">No luck involved: you buy or forge your weapons and see the exact weapon before you pay.</p></div>
+    <div class="card feature"><div class="k">⚓</div><h3 data-i18n="f5t">An archipelago to explore</h3><p data-i18n="f5p">Mist creatures with different shapes and traits on every island, and a boss that closes each one.</p></div>
+    <div class="card feature"><div class="k">✦</div><h3 data-i18n="f6t">At your own pace</h3><p data-i18n="f6p">Plays offline. No accounts and no in-app purchases.</p></div>
+  </div>
+
+  <h2 class="section-title" data-i18n="faqTitle">FAQ</h2>
+  <div class="card">
+    <details><summary data-i18n="q1">Is it free?</summary><p data-i18n="a1">Yes. Video ads are always optional, never interrupt a wave and give you a reward. There are no in-app purchases.</p></details>
+    <details><summary data-i18n="q2">Can I play offline?</summary><p data-i18n="a2">Yes. The game works without a connection and needs no account.</p></details>
+    <details><summary data-i18n="q3">Which languages?</summary><p data-i18n="a3">English and Spanish.</p></details>
+    <details><summary data-i18n="q4">When does it launch?</summary><p data-i18n="a4">Soon on iPhone and Android. Follow us to know the launch day.</p></details>
+  </div>
+
+  <section class="contact">
+    <p class="muted" data-i18n="privacy">Privacy policy: coming soon</p>
+    <p><span data-i18n="support">Support</span>: <a href="mailto:unosrandomstv@gmail.com">unosrandomstv@gmail.com</a></p>
+    <div class="socials">
+      <a href="https://www.youtube.com/@unosrandoms_games" target="_blank" rel="noopener">YouTube</a>
+      <a href="https://www.tiktok.com/@unosrandoms_games" target="_blank" rel="noopener">TikTok</a>
+      <a href="https://www.instagram.com/unosrandoms_games/" target="_blank" rel="noopener">Instagram</a>
+      <a href="https://discord.gg/aYCfAEBq9X" target="_blank" rel="noopener">Discord</a>
+    </div>
+  </section>
+
+  <footer>© 2026 UnosRandomsGames</footer>
+</main>
+
+<script>
+(function () {
+  var T = {
+    es: {
+      docTitle: "Faro de Sal · Saltlight — UnosRandomsGames",
+      title: "Faro de Sal",
+      alt: "Saltlight en inglés",
+      tagline: "Defiende el faro, forja armas y lidera tu aldea contra la marea gris.",
+      soon: "Próximamente",
+      heroAlt: "Los héroes de Faro de Sal ante el faro",
+      story: "Una costa de salinas, un faro de piedra y una marea gris que sube cada noche. Eres la <em>farera</em>: si la luz se apaga, la aldea cae.",
+      howTitle: "Cómo se juega",
+      howSub: "Cada noche, cuatro pasos",
+      s1t: "Gasta la sal en la bajamar",
+      s1p: "Construye redes, arponeras, calderas y campanas, y mejóralas de madera a hierro y bronce.",
+      s2t: "Reparte a tus aldeanos",
+      s2p: "Cada aldeano es ingreso o defensa, nunca las dos cosas: tú eliges quién saca sal y quién empuña un arpón.",
+      s3t: "Pelea la oleada",
+      s3p: "Mueve a tu héroe con un pulgar, ataca en abanico con un botón y usa tus habilidades en el momento justo.",
+      s4t: "Vence al jefe y zarpa",
+      s4p: "Cada isla termina con un jefe. Gánale y zarpa hacia la siguiente isla del archipiélago.",
+      shotsTitle: "Capturas",
+      shotsSub: "Desliza para ver más",
+      c1: "El Calafate y su Brea caliente",
+      c2: "Defiende el faro",
+      c3: "Tu aldea crece contigo",
+      c4: "Del fondo llega el Leviatán",
+      c5: "Forja el arma que eliges",
+      c6: "Elige a tu héroe",
+      c7: "El Campanero toca a rebato",
+      c8: "Recorre el archipiélago",
+      c9: "Mejora tus defensas en el Taller",
+      introTitle: "Mira la intro",
+      introSub: "42 segundos · textos en inglés",
+      featTitle: "Características",
+      f1t: "Héroes",
+      f1p: "La Farera, la Ballenera, el Calafate, la Pescadora y el Campanero, cada uno con su estilo.",
+      f2t: "Habilidades",
+      f2p: "Sube de nivel, desbloquea habilidades y decide cuándo usarlas en plena oleada.",
+      f3t: "Edificios en tu aldea",
+      f3p: "Un mercader, un taller, una herrería y más. Tu aldea crece contigo.",
+      f4t: "Armas a la carta",
+      f4p: "Sin azar: compras o forjas tus armas y ves el arma exacta antes de pagar.",
+      f5t: "Un archipiélago por recorrer",
+      f5p: "Criaturas de bruma con formas y rasgos distintos en cada isla, y un jefe que cierra cada una.",
+      f6t: "A tu ritmo",
+      f6p: "Se juega sin conexión. Sin cuentas y sin compras dentro de la app.",
+      faqTitle: "Preguntas frecuentes",
+      q1: "¿Es gratis?",
+      a1: "Sí. Los vídeos con anuncio son siempre opcionales, nunca interrumpen una oleada y te dan una recompensa. No hay compras dentro de la app.",
+      q2: "¿Se puede jugar sin conexión?",
+      a2: "Sí. El juego funciona sin conexión y no necesita cuenta.",
+      q3: "¿En qué idiomas está?",
+      a3: "Español e inglés.",
+      q4: "¿Cuándo sale?",
+      a4: "Pronto en iPhone y Android. Síguenos para saber el día del lanzamiento.",
+      privacy: "Política de privacidad: próximamente",
+      support: "Soporte"
+    }
+  };
+  var EN = { docTitle: document.title };
+  var nodes = document.querySelectorAll("[data-i18n]");
+  nodes.forEach(function (n) { EN[n.getAttribute("data-i18n")] = n.innerHTML; });
+  var altNodes = document.querySelectorAll("[data-i18n-alt]");
+  EN.heroAlt = "The heroes of Saltlight in front of the lighthouse";
+  T.en = EN;
+
+  function apply(lang) {
+    var t = T[lang] || EN;
+    nodes.forEach(function (n) { var k = n.getAttribute("data-i18n"); if (t[k]) n.innerHTML = t[k]; });
+    altNodes.forEach(function (n) { var k = n.getAttribute("data-i18n-alt"); if (t[k]) n.setAttribute("alt", t[k]); });
+    document.querySelectorAll("img[data-src-" + lang + "]").forEach(function (img) {
+      var s = img.getAttribute("data-src-" + lang); if (img.getAttribute("src") !== s) img.setAttribute("src", s);
+    });
+    document.title = t.docTitle;
+    document.documentElement.lang = lang;
+    document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+      b.setAttribute("aria-pressed", String(b.getAttribute("data-set-lang") === lang));
+    });
+    try { localStorage.setItem("sl-lang", lang); } catch (e) {}
+  }
+  var saved = null;
+  try { saved = localStorage.getItem("sl-lang"); } catch (e) {}
+  var nav = (navigator.language || "en").slice(0, 2).toLowerCase();
+  apply(saved === "es" || saved === "en" ? saved : (nav === "es" ? "es" : "en"));
+  document.querySelectorAll("[data-set-lang]").forEach(function (b) {
+    b.addEventListener("click", function () { apply(b.getAttribute("data-set-lang")); });
+  });
+})();
+</script>
+</body>
+</html>
